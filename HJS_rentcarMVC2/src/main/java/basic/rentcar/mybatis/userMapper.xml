@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.user">
+
+	<select id="userLogin" parameterType="user" resultType="String">
+		select
+		userid from user where userid=#{userId} and pwd=#{pwd}
+	</select>
+	<select id="getUserNo" parameterType="String" resultType="int">
+		select
+		num from user where
+		userid=#{userId}
+	</select>
+	<insert id="userInsert" parameterType="Arraylist">
+		INSERT INTO user
+		(name,
+		userid, pwd, email, phone) VALUES (#{name}, #{userid}, #{pwd},
+		#{email}, #{phone})
+	</insert>
+	<select id="isValidId" parameterType="String" resultType="int">
+		select
+		num from user where userid=#{id}
+	</select>
+	<select id="userList" resultType="user">
+		select * from user
+	</select>
+	<delete id="userDelete" parameterType="String">
+		delete from user where
+		userid=#{id}
+	</delete>
+	<select id="userContent" parameterType="int" resultType="user">
+		select *
+		from user
+		where
+		num=#{num}
+	</select>
+	<update id="userUpdate" parameterType="user">
+		UPDATE user
+		SET email =
+		#{email}, phone = #{phone}
+		WHERE num = #{num}
+	</update>
+
+	<select id="rentcarList" parameterType="map"
+		resultType="rentcar">
+		SELECT * FROM rentcar
+		<where>
+			total_qty > 0
+			<if test="category != '전체'">
+				AND category = #{category}
+			</if>
+			<if test="company != '전체'">
+				AND company = #{company}
+			</if>
+		</where>
+	</select>
+
+	<select id="oneRentcarInfo" parameterType="int"
+		resultType="rentcar">
+		select * from rentcar where num=#{num}
+	</select>
+
+	<insert id="reservationInsert" parameterType="reservation">
+		INSERT INTO
+		reservation
+		(num, userid, qty, dday,rday,usein,usewifi,usenavi,useseat)
+		VALUES (#{num}, #{userid}, #{qty},
+		#{dday}, #{rday},#{usein},
+		#{usewifi},
+		#{usenavi},
+		#{useseat})
+	</insert>
+
+	<select id="getRentcarQTY" parameterType="int" resultType="int">
+		select total_qty from rentcar where num=#{num}
+	</select>
+	<update id="updateQTY" parameterType="HashMap">
+		UPDATE rentcar
+		SET total_qty
+		=
+		#{qty}
+		WHERE num = #{num}
+	</update>
+	<select id="getOneUserId" parameterType="int"
+		resultType="String">
+		select
+		userid from user where num=#{log}
+	</select>
+
+	<select id="reservationList" parameterType="String"
+		resultType="reservationViwe">
+		SELECT
+		reservation.reserve_seq AS regNo,
+		user.name AS name,
+		rentcar.price AS price,
+		rentcar.img AS img,
+		reservation.qty AS qty,
+		reservation.dday AS dday,
+		reservation.rday AS rday,
+		reservation.usein AS
+		usein,
+		reservation.usewifi AS usewifi,
+		reservation.useseat AS useseat,
+		reservation.usenavi AS usenavi,
+		(reservation.qty * reservation.dday *
+		(rentcar.price + (reservation.usein +
+		reservation.usewifi +
+		reservation.useseat)*10000)) AS totalPrice,
+		DATE_ADD(STR_TO_DATE(reservation.rday, '%Y-%m-%d'), INTERVAL
+		(reservation.dday - 1) DAY) AS endDate
+		FROM reservation
+		JOIN rentcar ON
+		reservation.num = rentcar.num
+		JOIN user ON reservation.userid =
+		user.userid
+		<where>
+			<if test="userid != 'admin'">
+				user.userid = #{userId}
+			</if>
+		</where>
+		;
+	</select>
+
+
+	<select id="getQTY" parameterType="int" resultType="int">
+		select qty
+		from reservation where reserve_seq =#{regNo};
+	</select>
+	<select id="getCarNum" parameterType="int" resultType="int">
+		select num
+		from reservation where reserve_seq =#{regNo};
+	</select>
+	<delete id="reservationDelete" parameterType="int">
+		delete from
+		reservation where
+		reserve_seq=#{regNo}
+	</delete>
+
+	<select id="oneReservationInfo" parameterType="int"
+		resultType="reservationViwe">
+		SELECT
+		reservation.reserve_seq AS regNo,
+		user.name AS name,
+		rentcar.price AS price,
+		rentcar.img AS img,
+		reservation.qty AS qty,
+		reservation.dday AS dday,
+		reservation.rday AS rday,
+		reservation.usein AS
+		usein,
+		reservation.usewifi AS usewifi,
+		reservation.useseat AS useseat,
+		reservation.usenavi AS usenavi,
+		(reservation.qty * reservation.dday *
+		(rentcar.price + (reservation.usein +
+		reservation.usewifi +
+		reservation.useseat)*10000)) AS totalPrice,
+		DATE_ADD(STR_TO_DATE(reservation.rday, '%Y-%m-%d'), INTERVAL
+		(reservation.dday - 1) DAY) AS endDate
+		FROM reservation
+		JOIN rentcar ON
+		reservation.num = rentcar.num
+		JOIN user ON reservation.userid =
+		user.userid
+		where reserve_seq=#{regNo};
+	</select>
+
+	<update id="reservationUpdate" parameterType="reservation">
+		UPDATE reservation
+		SET num = #{num}, userid = #{userid}, qty = #{qty}, dday = #{dday},
+		rday = #{rday}, usein = #{usein}, usewifi = #{usewifi}, usenavi=
+		#{usenavi},useseat = #{useseat}
+		WHERE reserve_seq=#{reserveSeq};
+	</update>
+
+	<update id="updateRentcarInfo" parameterType="rentcar">
+		update rentcar
+		set
+		name = #{name},
+		category = #{category},
+		price = #{price},
+		usepeople =
+		#{usepeople},
+		total_qty = #{totalQty},
+		company = #{company},
+		img =
+		#{img},
+		info = #{info}
+		where num = #{num}
+	</update>
+
+	<delete id="deleteRentCar" parameterType="Integer">
+		delete from rentcar
+		where num = #{num}
+	</delete>
+	<delete id="deleteRes" parameterType="Integer">
+		delete from reservation
+		where num = #{num}
+	</delete>
+	<insert id="insertRentcar" parameterType="reservation">
+		INSERT INTO
+		rentcar(name, category, price, usepeople, total_qty, company, img,
+		info)
+		VALUES("${name}",${category},${price},${usepeople},${total_Qty},"${company}","${img}","${info}")
+	</insert>
+	<update id="updateRentcarNoImg" parameterType="Rentcar">
+		UPDATE rentcar
+		SET
+		name="${name}",category=${category},price=${price},usepeople=${usepeople},total_qty=${total_Qty},company="${company}",info="${info}"
+		WHERE num=${num}
+	</update>
+	<update id="updateRentcarHasImg" parameterType="Rentcar">
+		UPDATE rentcar
+		SET
+		name="${name}",category=${category},price=${price},usepeople=${usepeople},total_qty=${total_Qty},company="${company}",img="${img}",info="${info}"
+		WHERE num=${num}
+	</update>
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <properties resource="basic/rentcar/mybatis/db.properties"/> 
+  <typeAliases>
+      <typeAlias type="basic.rentcar.vo.user" alias="user"/>
+      <typeAlias type="basic.rentcar.vo.rentcar" alias="rentcar"/>
+      <typeAlias type="basic.rentcar.vo.reservation" alias="reservation"/>
+      <typeAlias type="basic.rentcar.vo.reservationViwe" alias="reservationViwe"/>
+  </typeAliases> 
+  
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="${driver}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+      </dataSource>
+    </environment>
+  </environments>
+  
+  <mappers>
+    <mapper resource="basic/rentcar/mybatis/userMapper.xml"/>
+  </mappers>
+</configuration>
