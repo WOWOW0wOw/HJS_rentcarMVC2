@@ -30,7 +30,9 @@
 			</div>
 			<div class="car-insert-input">
 				<label for="carCompany">회사</label>
-				<input name="carCompany" id="carCompany" type="text"/>
+				<label><input name="carCompany" id="carCompany" type="radio" value="기아" checked/>기아</label>
+				<label><input name="carCompany" id="carCompany" type="radio" value="현대" />현대</label>
+				<label><input name="carCompany" id="carCompany" type="radio" value="BMW" />BMW</label>
 			</div>
 			<div class="car-insert-input">
 				<label for="carInfo">차량정보</label>
@@ -40,7 +42,6 @@
 				<label for="carImg">이미지</label>
 				<input name="carImg" id="carImg" type="file" accept="image/*"/>
 			</div>
-				<img alt="img.jpg" src="${ctx}/img/${img}">
 			<div class="car-insert-submit">
 				<button class="btn-car-insert">등록하기</button>
 			</div>

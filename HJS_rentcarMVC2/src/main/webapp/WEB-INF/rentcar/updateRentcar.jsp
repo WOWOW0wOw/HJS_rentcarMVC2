@@ -37,8 +37,12 @@
 				</tr>
 				<tr>
 					<th>회사</th>
-					<td><input type="text" name="company" value="${vo.company}"
-						class="input-field" required></td>
+					<td>
+						<select name="company" class="select-field" " required>
+							<option value="현대" >현대</option>
+							<option value="기아" >기아</option>
+							<option value="BMW" >BMW</option>
+					</select></td>
 				</tr>
 				<tr>
 					<th>차량 이미지</th>
