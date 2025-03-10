@@ -20,6 +20,9 @@ public class reservationCompleteController implements Controller {
 			throws ServletException, IOException {
 
 		int num = Integer.parseInt(request.getParameter("num"));
+		if(request.getParameter("log").equals("")) {
+			return "main";
+		}
 		int log = Integer.parseInt(request.getParameter("log"));
 		String userId = userDAO.getInstance().getOneUserId(log);
 		int qty = Integer.parseInt(request.getParameter("qty"));

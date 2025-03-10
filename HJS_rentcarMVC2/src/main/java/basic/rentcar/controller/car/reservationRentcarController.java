@@ -15,9 +15,6 @@ public class reservationRentcarController implements Controller {
 	@Override
 	public String requestHandler(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		if(request.getParameter("log") == null) {
-			return "main";
-		}
 		int num = Integer.parseInt(request.getParameter("num"));
 		int qty = Integer.parseInt(request.getParameter("qty"));
 		HttpSession session = request.getSession();
