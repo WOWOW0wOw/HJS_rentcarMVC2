@@ -48,7 +48,21 @@
 		resultType="rentcar">
 		SELECT * FROM rentcar
 		<where>
-			total_qty > 0
+			<if test="total_qty > 0">
+				total_qty > 0
+			</if>
+			<if test="category != '전체'">
+				AND category = #{category}
+			</if>
+			<if test="company != '전체'">
+				AND company = #{company}
+			</if>
+		</where>
+	</select>
+	<select id="adminRentcarList" parameterType="map"
+		resultType="rentcar">
+		SELECT * FROM rentcar
+		<where>
 			<if test="category != '전체'">
 				AND category = #{category}
 			</if>

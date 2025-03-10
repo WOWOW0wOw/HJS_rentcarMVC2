@@ -46,7 +46,7 @@
 						<img src="${ctx}/img/${vo.img}" alt="${vo.name}">
 					</div>
 					<div class="textBox">
-						<p class="textBox__name">${vo.name}${vo.company}</p>
+						<p class="textBox__name">${vo.name}&nbsp;(${vo.company})</p>
 						<p class="textBox__price">${vo.price}원</p>
 					</div>
 				</div>
@@ -57,13 +57,13 @@
 
 <script>
 	function checkQty(qty, ctx, num, loginId) {
+		if (loginId == 'admin') {
+			location.href = ctx + '/rentcarUpdate.do?num=' + num;
+		}
 		if (qty > 0) {
 			location.href = ctx + '/rentcarInfo.do?num=' + num;
 		} else {
 			alert('죄송합니다 이 차는 모두 렌트 중입니다');
-		}
-		if (loginId == 'admin') {
-			location.href = ctx + '/rentcarUpdate.do?num=' + num;
 		}
 	}
 </script>

@@ -34,6 +34,21 @@ public class rentcarDAO {
 		}
 		return list;
 	}
+	public ArrayList<rentcar> adminCarlist(String category, String company) {
+		
+		ArrayList<rentcar> list = new ArrayList<rentcar>();
+		
+		Map<String, String> menu = new HashMap<>();
+		menu.put("category", category);
+		menu.put("company", company);
+		
+		try (SqlSession session = MybatisConfig.getInstance().openSession()) {
+			list = (ArrayList) session.selectList("adminRentcarList", menu);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 
 	public rentcar oneRentcarInfo(int num) {
 		rentcar car = null;
