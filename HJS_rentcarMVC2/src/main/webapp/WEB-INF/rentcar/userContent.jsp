@@ -9,11 +9,8 @@
 <c:if test="${vo ne null}">
 	<div class="detail-container">
 		<h1>${vo.name}회원의 상세보기</h1>
-		<form action="${ctx}/userUpdate.do" method="post" id="updateForm"
-			onsubmit="return validateForm(event)">
+		<form action="${ctx}/userUpdate.do" method="post" id="updateForm">
 			<input type="hidden" name="num" id="num" value="${vo.num}" />
-			<!-- Spring Security CSRF 토큰 추가 (필요 시) -->
-			<security:csrfInput />
 			<div class="detail-wrapper">
 				<table class="detail-table">
 					<tr>
@@ -53,5 +50,4 @@
 	</div>
 </c:if>
 
-<script src="${ctx}/js/content.js"></script>
 <%@ include file="/part/footer.jsp"%>

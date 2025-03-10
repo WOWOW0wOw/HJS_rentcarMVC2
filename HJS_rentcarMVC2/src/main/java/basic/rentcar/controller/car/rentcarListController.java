@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletResponse;
 public class rentcarListController implements Controller {
 	public String requestHandler(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		String category = request.getParameter("cat"); 
 		String com = request.getParameter("com"); 
 

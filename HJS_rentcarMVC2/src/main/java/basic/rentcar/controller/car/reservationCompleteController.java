@@ -1,13 +1,13 @@
 package basic.rentcar.controller.car;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 
 import basic.rentcar.dao.rentcarDAO;
 import basic.rentcar.dao.reservationDAO;
 import basic.rentcar.dao.userDAO;
 import basic.rentcar.frontController.Controller;
-import basic.rentcar.vo.rentcar;
 import basic.rentcar.vo.reservation;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,8 +20,12 @@ public class reservationCompleteController implements Controller {
 			throws ServletException, IOException {
 
 		int num = Integer.parseInt(request.getParameter("num"));
-		if(request.getParameter("log").equals("")) {
-			return "main";
+		if(request.getSession().getAttribute("log") == null) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter writer = response.getWriter();
+			writer.println("<script>alert('로그인 후 이용가능합니다'); location.href='userLogin.do';</script>");
+			writer.close();
+			return null;
 		}
 		int log = Integer.parseInt(request.getParameter("log"));
 		String userId = userDAO.getInstance().getOneUserId(log);
